@@ -1,93 +1,175 @@
-# 商品管理アプリケーション
+# 商品管理システム
 
-このプロジェクトは、Flaskを使用して構築された簡単な商品管理アプリケーションです。商品の登録、閲覧、編集、削除などの基本的な機能を提供します。
+このアプリケーションは、商品を管理するためのシンプルなシステムです。Python (Flask) を使用して構築されており、PostgreSQL をバックエンドデータベースとして使用します。
 
-## 主な機能
+---
 
-1. **管理メニュー**:
-   - 商品一覧画面、新規登録画面へのナビゲーション。
+## **機能一覧**
 
-2. **商品一覧の表示**:
-   - 登録済み商品のリストを表示します。
-   - 商品ごとに編集リンクが表示されます。
+- **商品一覧の表示**  
+  登録されているすべての商品を一覧表示します。
+- **新規商品の追加**  
+  商品名と価格を入力して新しい商品を登録します。
+- **商品の編集**  
+  既存の商品情報（名前や価格）を更新します。
+- **商品データの保存**  
+  PostgreSQL データベースにデータを永続化します。
 
-3. **新規商品の登録**:
-   - 商品名と価格を入力して、新しい商品を登録します。
+---
 
-4. **商品情報の編集**:
-   - 既存の商品情報（名前と価格）を更新できます。
+## **必要要件**
 
-5. **データベース操作**:
-   - SQLiteまたはPostgreSQLを使用してデータを永続化します。
+以下が事前にインストールされている必要があります：
 
-## ディレクトリ構造
+- **Python 3.8+**
+- **PostgreSQL 10+**
+- **Git**（任意）
 
-```
-flask-product-management/
-├── app/
-│   ├── __init__.py          # Flaskアプリケーションとデータベースの初期化
-│   ├── models.py            # データベースモデルの定義
-│   ├── routes.py            # アプリケーションルートの定義
-│   ├── templates/           # HTMLテンプレートフォルダ
-│   │   ├── menu.html        # 管理メニュー画面
-│   │   ├── view_products.html # 商品一覧画面
-│   │   ├── edit_product.html # 商品編集画面
-│   │   └── add_product.html  # 新規商品登録画面
-├── .gitignore               # Git管理から除外するファイル
-├── .env                     # 環境変数（データベース設定）
-├── requirements.txt         # 必要なPythonライブラリ
-├── README.md                # アプリケーションの説明
-└── run.py                   # アプリケーションのエントリーポイント
-```
+---
 
-## セットアップ方法
+## **セットアップ手順**
 
-### 1. 仮想環境を作成する
-以下のコマンドを実行して仮想環境を作成・有効化します。
+### **1. リポジトリのクローンまたはダウンロード**
+プロジェクトを取得します。
 
 ```bash
-python -m venv venv
-source venv/bin/activate       # Windowsの場合: venv\Scripts\activate
+git clone https://github.com/your-repository-url.git
+cd your-repository-name
 ```
 
-### 2. 必要なパッケージをインストールする
-以下のコマンドを実行して依存関係をインストールします。
+---
+
+### **2. 仮想環境を作成**
+Python の仮想環境を作成して有効化します。
+
+```bash
+python3 -m venv venv
+source venv/bin/activate  # Windowsの場合: venv\Scripts\activate
+```
+
+---
+
+### **3. 必要なライブラリをインストール**
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. 環境変数を設定する
-プロジェクトのルートフォルダに`.env`ファイルを作成し、以下の内容を記載します。
+---
 
-```
-DB_USERNAME=your_username
-DB_PASSWORD=your_password
+### **4. PostgreSQLデータベースのセットアップ**
+
+1. PostgreSQLにログインします：
+
+   ```bash
+   sudo -u postgres psql
+   ```
+
+2. データベースとユーザーを作成：
+
+   ```sql
+   CREATE DATABASE product_db;
+   CREATE USER product_user WITH PASSWORD 'password123';
+   GRANT ALL PRIVILEGES ON DATABASE product_db TO product_user;
+   ```
+
+3. 必要なテーブルを作成：
+
+   ```sql
+   \c product_db
+   CREATE TABLE products (
+       id SERIAL PRIMARY KEY,
+       name VARCHAR(120) UNIQUE NOT NULL,
+       price FLOAT NOT NULL
+   );
+   ```
+
+4. ダミーデータを追加（任意）：
+
+   ```sql
+   INSERT INTO products (name, price) VALUES
+   ('りんご', 100),
+   ('バナナ', 200),
+   ('オレンジ', 150);
+   ```
+
+5. PostgreSQLからログアウト：
+
+   ```sql
+   \q
+   ```
+
+---
+
+### **5. `.env` ファイルを作成**
+
+プロジェクトフォルダに `.env` ファイルを作成し、以下を記載します：
+
+```plaintext
+DB_USERNAME=product_user
+DB_PASSWORD=password123
 DB_HOST=localhost
-DB_NAME=your_database
+DB_NAME=product_db
+SECRET_KEY=supersecretkey
 ```
 
-### 4. データベースを初期化する
-以下のコマンドを実行してデータベースを初期化します。
+---
 
-```bash
-flask init-db
-```
+### **6. アプリケーションを起動**
 
-### 5. アプリケーションを起動する
-以下のコマンドでアプリケーションを起動します。
+以下のコマンドでアプリケーションを起動します：
 
 ```bash
 python run.py
 ```
 
-ブラウザで `http://127.0.0.1:5000/` にアクセスして動作を確認します。
+---
 
-## 使用技術
+## **使い方**
 
-- **Flask**: Webアプリケーションフレームワーク
-- **Flask-SQLAlchemy**: データベース操作のための拡張
-- **Python-Dotenv**: 環境変数の管理
-- **HTML**: フロントエンド
+1. **ブラウザでアクセス**  
+   以下のURLにアクセスします：
 
+   ```
+   http://127.0.0.1:5000/
+   ```
 
+2. **機能の説明**
+   - **管理メニュー**: トップページで商品管理の各機能にアクセスできます。
+   - **商品一覧**: 登録されている商品を表示します。
+   - **新規商品登録**: 商品名と価格を入力して登録します。
+   - **商品編集**: 商品名や価格を変更します。
+
+---
+
+## **よくある問題と解決方法**
+
+1. **PostgreSQLに接続できない**
+   - `.env` ファイルの内容が正しいか確認してください。
+   - PostgreSQLが起動しているか確認します：
+     ```bash
+     sudo service postgresql status
+     ```
+
+2. **テーブルが見つからないエラー**
+   - `products` テーブルが存在するか確認し、存在しない場合は再作成してください。
+
+3. **依存ライブラリのエラー**
+   - 必要なライブラリがインストールされているか確認：
+     ```bash
+     pip install -r requirements.txt
+     ```
+
+---
+
+## **開発に関する情報**
+
+- **Pythonバージョン**: 3.8+
+- **フレームワーク**: Flask
+- **データベース**: PostgreSQL
+
+---
+
+## **ライセンス**
+
+このプロジェクトは [MIT ライセンス](https://opensource.org/licenses/MIT) のもとで公開されています。
