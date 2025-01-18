@@ -22,11 +22,23 @@
 
 ## ディレクトリ構造
 
-flask-product-management/ ├── app/ │ ├── init.py # Flaskアプリケーションとデータベースの初期化 │ ├── models.py # データベースモデルの定義 │ ├── routes.py # アプリケーションルートの定義 │ ├── templates/ # HTMLテンプレートフォルダ │ │ ├── menu.html # 管理メニュー画面 │ │ ├── view_products.html # 商品一覧画面 │ │ ├── edit_product.html # 商品編集画面 │ │ └── add_product.html # 新規商品登録画面 ├── .gitignore # Git管理から除外するファイル ├── .env # 環境変数（データベース設定） ├── requirements.txt # 必要なPythonライブラリ ├── README.md # アプリケーションの説明 └── run.py # アプリケーションのエントリーポイント
-
-bash
-コピーする
-編集する
+```
+flask-product-management/
+├── app/
+│   ├── __init__.py          # Flaskアプリケーションとデータベースの初期化
+│   ├── models.py            # データベースモデルの定義
+│   ├── routes.py            # アプリケーションルートの定義
+│   ├── templates/           # HTMLテンプレートフォルダ
+│   │   ├── menu.html        # 管理メニュー画面
+│   │   ├── view_products.html # 商品一覧画面
+│   │   ├── edit_product.html # 商品編集画面
+│   │   └── add_product.html  # 新規商品登録画面
+├── .gitignore               # Git管理から除外するファイル
+├── .env                     # 環境変数（データベース設定）
+├── requirements.txt         # 必要なPythonライブラリ
+├── README.md                # アプリケーションの説明
+└── run.py                   # アプリケーションのエントリーポイント
+```
 
 ## セットアップ方法
 
@@ -35,45 +47,47 @@ bash
 
 ```bash
 python -m venv venv
-source venv/bin/activate       # Windowsの場合: venv\\Scripts\\activate
-2. 必要なパッケージをインストールする
+source venv/bin/activate       # Windowsの場合: venv\Scripts\activate
+```
+
+### 2. 必要なパッケージをインストールする
 以下のコマンドを実行して依存関係をインストールします。
 
-bash
-コピーする
-編集する
+```bash
 pip install -r requirements.txt
-3. 環境変数を設定する
-プロジェクトのルートフォルダに.envファイルを作成し、以下の内容を記載します。
+```
 
-makefile
-コピーする
-編集する
+### 3. 環境変数を設定する
+プロジェクトのルートフォルダに`.env`ファイルを作成し、以下の内容を記載します。
+
+```
 DB_USERNAME=your_username
 DB_PASSWORD=your_password
 DB_HOST=localhost
 DB_NAME=your_database
-4. データベースを初期化する
+```
+
+### 4. データベースを初期化する
 以下のコマンドを実行してデータベースを初期化します。
 
-bash
-コピーする
-編集する
+```bash
 flask init-db
-5. アプリケーションを起動する
+```
+
+### 5. アプリケーションを起動する
 以下のコマンドでアプリケーションを起動します。
 
-bash
-コピーする
-編集する
+```bash
 python run.py
-ブラウザで http://127.0.0.1:5000/ にアクセスして動作を確認します。
+```
 
-使用技術
-Flask: Webアプリケーションフレームワーク
-Flask-SQLAlchemy: データベース操作のための拡張
-Python-Dotenv: 環境変数の管理
-HTML: フロントエンド
-注意事項
-.envファイルは機密情報を含むため、GitHubにアップロードしないように注意してください。
-デフォルトでは、localhostにあるPostgreSQLデータベースを使用するように設定されていますが、SQLiteなど他のデータベースにも対応可能です。
+ブラウザで `http://127.0.0.1:5000/` にアクセスして動作を確認します。
+
+## 使用技術
+
+- **Flask**: Webアプリケーションフレームワーク
+- **Flask-SQLAlchemy**: データベース操作のための拡張
+- **Python-Dotenv**: 環境変数の管理
+- **HTML**: フロントエンド
+
+
