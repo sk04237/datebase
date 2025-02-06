@@ -1,14 +1,5 @@
-Flask==2.3.2
-Flask-SQLAlchemy==3.1.1
-Flask-WTF==1.1.1
-Flask-Migrate==4.0.4
-Flask-Login==0.6.3
-python-dotenv==1.0.1
-psycopg2-binary==2.9.9
-Werkzeug==2.0.3  # `url_quote` の問題回避
-gunicorn==21.2.0  # 本番環境用 WSGI サーバー
-alembic==1.12.1  # データベースマイグレーションツール
-
-# 開発ツール（本番環境では不要）
-ipython==8.12.3
-flake8==6.1.0
+Flask==2.2.3
+Flask-SQLAlchemy==3.0.3
+python-dotenv==1.0.0
+psycopg2-binary==2.9.7
+Werkzeug==2.2.3  # Flask 2.2.3 との互換性のため調整
