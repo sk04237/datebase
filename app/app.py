@@ -19,14 +19,16 @@ def view_products():
 def add_product():
     if request.method == 'POST':
         name = request.form['name'].strip()
-        price = request.form['price']
-        if not name or not price:
+        price_str = request.form['price'].strip()  # 文字列のまま取得
+        if not name or not price_str:
             flash('商品名と価格は必須です。', 'error')
             return redirect(url_for('main.add_product'))
+        
         try:
-            price = float(price)
+            price = float(price_str)  # ここで float に変換
             if price < 0:
                 raise ValueError('価格は正の値である必要があります。')
+            
             new_product = Product(name=name, price=price)
             db.session.add(new_product)
             db.session.commit()
@@ -36,8 +38,11 @@ def add_product():
             flash(str(ve), 'error')
         except Exception as e:
             db.session.rollback()
-            flash('エラーが発生しました。', 'error')
+            flash(f'データベースエラー: {e}', 'error')  # エラー詳細を表示
+            print(f"Exception: {e}")  # ターミナルにエラー詳細を表示
+
     return render_template('add_product.html')
+
 
 # 商品編集
 @main.route('/products/edit/<int:product_id>', methods=['GET', 'POST'])
